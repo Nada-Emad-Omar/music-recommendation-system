@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Spotify-like Recommender</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app">
+  <div class="sidebar">
+    <div class="logo">MySpotify</div>
+    <h4>Popular Seeds</h4>
+    <div class="seed-list">
+      {% for s in seeds %}
+      <div class="seed-btn" onclick="searchSeed('{{s.name}}')">{{s.name}} - {{s.artists_joined}}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="search">
+        <input type="text" id="query" placeholder="Search song, artist, or genre...">
+        <button onclick="getRecs()">Search</button>
+      </div>
+      <div class="controls">
+        <select id="sort_by">
+          <option value="relevance">Relevance</option>
+          <option value="popularity">Popularity</option>
+          <option value="year">Year</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="recs" class="results">
+      <div class="hint">Search for a song or artist to see recommendations...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function searchSeed(name){
+  document.getElementById('query').value = name;
+  getRecs();
+}
+
+async function getRecs() {
+  const query = document.getElementById('query').value;
+  const sort_by = document.getElementById('sort_by').value;
+  const res = await fetch('/api/recommend', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({query, sort_by, top_k:12})
+  });
+  const data = await res.json();
+  const container = document.getElementById('recs');
+  container.innerHTML = '';
+
+  if(data.results.length === 0){
+    container.innerHTML = '<div class="hint">No recommendations found</div>';
+    return;
+  }
+
+  data.results.forEach(r=>{
+    const div = document.createElement('div');
+    div.className = 'card';
+
+    // Use Spotify embed iframe
+    div.innerHTML = `
+      <div class="name">${r.name}</div>
+      <div class="artists">${r.artists_joined}</div>
+      <div class="meta2">Year: ${r.year} | Popularity: ${r.popularity}</div>
+      <iframe 
+        src="${r.embed_url}" 
+        width="100%" height="80" 
+        frameborder="0" 
+        allow="autoplay; clipboard-write; encrypted-media" 
+        allowfullscreen>
+      </iframe>
+    `;
+    container.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>

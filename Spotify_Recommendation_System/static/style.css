@@ -1,0 +1,226 @@
+:root {
+  --bg: #0f1720;
+  --card: #0b1220;
+  --text: #e6eef2;
+  --muted: #9aa7b2;
+  --accent: #1db954;
+  --glass: rgba(255,255,255,0.04);
+
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #07121a, #071722);
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* Layout */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  padding: 22px;
+  border-right: 1px solid rgba(255,255,255,0.03);
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+.seed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.seed-btn {
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  cursor: pointer;
+  transition: transform 0.12s, background 0.12s;
+}
+
+.seed-btn:hover {
+  background: rgba(255,255,255,0.05);
+  transform: scale(1.02);
+}
+
+/* Main Area */
+.main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar */
+.main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.search {
+  display: flex;
+  gap: 8px;
+  flex: 1 1 auto;
+}
+
+.search input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+  width: 360px;
+  background: transparent;
+  color: inherit;
+  outline: none;
+  flex: 1 1 auto;
+}
+
+.search button {
+  background: var(--accent);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.15s;
+}
+
+.search button:hover {
+  background: #19a74a;
+  transform: scale(1.05);
+}
+
+.controls select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Results Grid */
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+/* Song Cards */
+.card {
+  background: var(--card);
+  padding: 14px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.12s, border 0.12s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.card .name {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.card .artists {
+  color: var(--muted);
+}
+
+.card .meta2 {
+  color: var(--muted);
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card button {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 6px;
+  font-weight: 600;
+  transition: transform 0.15s, background 0.15s;
+}
+
+.card button:hover {
+  background: #1ed760;
+  transform: scale(1.05);
+}
+
+/* Spotify iframe for playback */
+.card iframe {
+  width: 100%;
+  height: 80px;
+  border-radius: 8px;
+  border: none;
+  margin-top: 6px;
+}
+
+/* Hint message */
+.hint {
+  text-align: center;
+  color: var(--muted);
+  padding: 24px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 14px;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .search input {
+    width: 100%;
+  }
+  .topbar {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 12px;
+  }
+  .seed-list {
+    flex-direction: row;
+    gap: 6px;
+  }
+}
